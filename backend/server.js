@@ -1,12 +1,13 @@
-const express  = require('express');
-const cors = require('cors');
+const express = require('express');
 const app = express();
+const rotasCep = require('./src/routes/cep.js');
 
-app.use(cors());
 app.use(express.json());
 
-app.get('/api/mensagem', (req, res )=> {
-    res.json({ texto: "ola do servidor"});
-});
+app.get('/health', (req, res) => {
+    return res.status(200).json({ status: "OK", uptime: process.uptime() });
+})
 
-app.listen(3000);
+app.use('/cep', rotasCep);
+
+app.listen(3000, () => console.log('Servidor rodando na porta 3000'));
